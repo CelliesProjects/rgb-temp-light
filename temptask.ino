@@ -1,7 +1,7 @@
 void tempTask( void * pvParameters )
 {
   //setup: setup client and url
-  const char*    host    = "192.168.2.3";
+  const char*    host    = "192.168.0.198";
   const char* sensorName = "kamer";
   const uint16_t port    = 80;
 

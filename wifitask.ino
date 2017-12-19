@@ -16,6 +16,15 @@ void wifiTask( void * pvParameters )
     3000,                            /* Stack size in words */
     NULL,                            /* Task input parameter */
     1,                               /* Priority of the task */
+    &xTempTaskHandle,                            /* Task handle. */
+    1);
+
+  xTaskCreatePinnedToCore(
+    serverTask,                      /* Function to implement the task */
+    "serverTask",                    /* Name of the task */
+    2000,                            /* Stack size in words */
+    NULL,                            /* Task input parameter */
+    1,                               /* Priority of the task */
     NULL,                            /* Task handle. */
     1);
 

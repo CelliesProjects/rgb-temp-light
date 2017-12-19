@@ -1,6 +1,8 @@
 #include <WiFi.h>
 #include <Wire.h>
 #include "SH1106.h"
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
 
 const uint8_t I2C_SDA_PIN  = 21;
 const uint8_t I2C_SCL_PIN  = 22;
@@ -14,7 +16,12 @@ const uint64_t frequency   = 1300;
 
 enum channel { redChannel, greenChannel, blueChannel, maxChannel };
 
+TaskHandle_t xTempTaskHandle = NULL;
+TaskHandle_t xOledTempTaskHandle = NULL;
+
 SH1106 oled( 0x3c, I2C_SDA_PIN, I2C_SCL_PIN );
+
+AsyncWebServer server(80);
 
 String statusText;
 float temperature = -1000;
@@ -33,6 +40,7 @@ void setup()
   Serial.println();
 
   Wire.begin( I2C_SDA_PIN, I2C_SCL_PIN, 1000000 );
+  oled.init();
 
   //setup pwm
   ledcSetup( redChannel, frequency, numberOfBits );
@@ -51,7 +59,7 @@ void setup()
     3000,                            /* Stack size in words */
     NULL,                            /* Task input parameter */
     2,                               /* Priority of the task */
-    NULL,                            /* Task handle. */
+    &xOledTempTaskHandle,            /* Task handle. */
     1);
 
   xTaskCreatePinnedToCore(

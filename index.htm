@@ -1,0 +1,58 @@
+<!doctype HTML>
+<html lang="en">
+<head>
+<style>
+body{
+  text-align:center;
+}
+button{
+  width:200px;
+}  
+#colorPicker{
+  width:200px;
+  height:200px;
+}
+</style>
+<title>Vensterbank</title>
+<meta charset="utf-8">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">  <!--prevent favicon requests-->
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jcanvas/16.7.3/jcanvas.js"></script>
+</head>
+<body>
+<h3>Vensterbank command & control</h3>
+<p><input id="colorPicker" type="color" /></p>
+<p><button type="button">TEMPERATURE</button></p>
+<script>
+$('#colorPicker').on( 'change', function()
+{
+  $.get( "api/setcolor",
+  {
+    color : $(this).val().substring(1)
+  })
+    .done( function( data ){
+
+    })
+    .fail( function( data ){
+
+    })
+    .always( function( data ){
+      console.log( data );
+    });
+})
+$('button').on( 'click', function()
+{
+  //set temperature light
+  $.get( "api/tempmode")
+    .done( function( data ){
+
+    })
+    .fail( function( data ){
+
+    })
+    .always( function( data ){
+      console.log( data );
+    });  
+})
+</script>
+</body>

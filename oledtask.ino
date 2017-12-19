@@ -1,7 +1,5 @@
 void oledTask( void * pvParameters )
 {
-  oled.init();
-
   oled.flipScreenVertically();
   oled.setTextAlignment( TEXT_ALIGN_CENTER );
   oled.display();
