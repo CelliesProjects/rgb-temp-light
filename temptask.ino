@@ -1,7 +1,7 @@
 void tempTask( void * pvParameters )
 {
   //setup: setup client and url
-  const char*    host    = "192.168.0.198";
+  const char*    host    = "192.168.2.5";
   const char* sensorName = "kamer";
   const uint16_t port    = 80;
 
@@ -11,19 +11,13 @@ void tempTask( void * pvParameters )
   {
     //loop: get temp from vissen and set colors
     WiFiClient client;
-    bool connectionOK = false;
 
-    if ( client.connect( host, port ) )
-    {
-      connectionOK = true;
-    }
-    else
+    if ( !client.connect( host, port ) )
     {
       Serial.println( " No host." );
       statusText = "No host.";
     }
-
-    if ( connectionOK )
+    else
     {
       String url = "/api/getdevice?status=";
 

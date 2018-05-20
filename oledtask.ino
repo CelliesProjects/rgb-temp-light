@@ -1,6 +1,9 @@
 void oledTask( void * pvParameters )
 {
-  oled.flipScreenVertically();
+  Wire.begin( I2C_SDA_PIN, I2C_SCL_PIN, 400000 );
+
+  oled.init();
+  //oled.flipScreenVertically();
   oled.setTextAlignment( TEXT_ALIGN_CENTER );
   oled.display();
 

@@ -7,6 +7,8 @@
 const uint8_t I2C_SDA_PIN  = 21;
 const uint8_t I2C_SCL_PIN  = 22;
 
+const uint8_t OLED_ADDRESS = 0x3c;
+
 const uint8_t redPin       = 26;
 const uint8_t greenPin     = 18;
 const uint8_t bluePin      = 19;
@@ -19,16 +21,16 @@ enum channel { redChannel, greenChannel, blueChannel, maxChannel };
 TaskHandle_t xTempTaskHandle = NULL;
 TaskHandle_t xOledTempTaskHandle = NULL;
 
-SH1106 oled( 0x3c, I2C_SDA_PIN, I2C_SCL_PIN );
+SH1106 oled( OLED_ADDRESS, I2C_SDA_PIN, I2C_SCL_PIN );
 
 AsyncWebServer server(80);
 
 String statusText;
 float temperature = -1000;
 
-float coldTemp = 10; //only blue light at this temp
+float coldTemp = 15; //only blue light at this temp
 float niceTemp = 20; //only green light at this temp
-float warmTemp = 30; //only red light at this temp
+float warmTemp = 25; //only red light at this temp
 
 uint32_t PWMdepth;
 
@@ -37,10 +39,6 @@ void setup()
   btStop();
   Serial.begin( 115200 );
   Serial.println();
-  Serial.println();
-
-  Wire.begin( I2C_SDA_PIN, I2C_SCL_PIN, 1000000 );
-  oled.init();
 
   //setup pwm
   ledcSetup( redChannel, frequency, numberOfBits );
@@ -70,7 +68,6 @@ void setup()
     1,                               /* Priority of the task */
     NULL,                            /* Task handle. */
     1);
-
 }
 
 void loop()
